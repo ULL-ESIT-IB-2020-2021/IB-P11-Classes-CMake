@@ -28,48 +28,129 @@ que se tendrán en cuenta a la hora de evaluar esta práctica:
 * Los programas deben estructurarse en directorios diferentes para cada "proyecto" y hacer que cada uno de
   ellos contenga un fichero `CMakeLists.txt` con la configuración de despliegue del proyecto.
 
-### Introducción a la criptografía
+### La herramienta `cmake`
+[CMake](https://es.wikipedia.org/wiki/CMake)
+es lo que se conoce como un sistema de metaconstrucción. 
+No se utiliza para construir (generar, *build* en inglés) el programa ejecutable de una aplicación sino
+que genera archivos de proyecto nativos para la plataforma de destino. 
+Por ejemplo, CMake en Windows producirá una solución para Visual Studio; 
+en Linux producirá un fichero Makefile; 
+en macOS producirá un proyecto para XCode y así sucesivamente. 
+Eso es lo que la palabra meta significa: CMake construye sistemas de construcción 
+(*builders*). 
+La herramienta make es un sistema de construcción, posiblemente el más ubicuo.
+
+Un proyecto basado en CMake siempre contiene un fichero `CMakeLists.txt`. 
+Este fichero de texto describe cómo se estructura el proyecto, la lista de ficheros 
+de código fuente que se ha de compilar, lo que CMake debe generar a partir de él y así sucesivamente. 
+Se trata en definitiva de un fichero de configuración para la herramienta CMake.
+CMake leerá las instrucciones del fichero y producirá el resultado deseado. 
+
+Una característica positiva de CMake es el llamado "out-of-source build". 
+Cualquier fichero requerido para la construcción final, incluyendo los ejecutables, 
+será almacenado en un directorio de construcción separado (usualmente llamado build/). 
+Esto evita que el directorio de origen que contiene el código fuente se llene de 
+ficheros no deseados y hace que sea fácil volver a empezar: sólo hay que eliminar 
+el directorio destino de la compilación y listo.
+
+CMake es una herramienta muy potente que admite multitud de opciones.
+En 
+[la documentación](https://cmake.org/cmake/help/latest/index.html) 
+de la herramienta se pueden estudiar en profundidad estas opciones, pero para la utilización que perseguimos
+realizar en esta asignatura bastará con que estudie detenidamente 
+[este breve tutorial](https://www.internalpointers.com/post/modern-cmake-beginner-introduction).
+En el 
+
 
 
 ### Entorno de trabajo
 Al realizar los siguientes ejercicios cree dentro de su repositorio de esta práctica un directorio diferente
 para cada uno de los ejercicios (proyectos).
-Tómese como ejemplo el primero de los ejercicios:
+Tómese como ejemplo el primero de los ejercicios.
+Ponga a cada uno de esos directorios nombres significativos (fechas, complejos, racionales por ejemplo).
 
-Ponga a cada uno de esos directorios nombres significativos.
 Haga que cada uno de sus programas conste de 3 ficheros:
-* Un fichero `mi_programa.cc` (programa principal) que contendrá la función `main` e incluirá el fichero de cabecera `funciones.h`
-* El fichero `funciones.h` que contendrá las declaraciones de las diferentes funciones que se utilizan en el
-  programa principal para resolver el ejercicio en cuestión.
-* El fichero `funciones.cc` que contendrá el código (definiciones) de las funciones declaradas en el fichero
-  de cabecera.
+* Un fichero `fechas.cc` (programa principal) que contendrá la función `main` e incluirá el fichero de cabecera `fecha.h`
+* El fichero `fecha.h` que contendrá las declaraciones correspondientes a la clase `Fecha`.
+* El fichero `fecha.cc` que contendrá el código (definiciones) correspondientes a la clase `Fecha`.
+* Obviamente si el programa principal (`fechas.cc`) utiliza otras clases, debería incluir (`#include`) los
+  correspondientes ficheros de cabecera.
+Modifique estos nombres de ficheros para adaptarlos al ejercicio en cuestión.
 
-Modifique los nombres de los ficheros que aquí se proponen para adaptarlos al ejercicio en cuestión.
+La compilación del programa correspondiente a cada ejercicio se automatizará con un fichero `CMakeLists.txt`
+que se utilizará con `cmake`.
 
-La compilación de los programas correspondientes a cada ejercicio se automatizará con un fichero Makefile para
-cada ejercicio.
+Así pues, la estructura de ficheros y directorios correspondiente a uno de los ejercicios (fechas, p. ej)
+sería la siguiente:
+```
+fechas
+    ├── build           // Directorio inicialmente vacío para alojar el programa ejecutable
+    ├── CMakeLists.txt  // Fichero de configuración para cmake
+    └── src             // Directorio contenedor del código fuente del ejercicio
+        ├── fecha.cc
+        ├── fecha.h
+        └── fechas.cc
+```
 
 Desarrolle cada uno de estos ejercicios de forma incremental, probando cada una de las funciones que va Ud.
 desarrollando. Utilice el depurador de VSC para corregir cualquier tipo de error semántico que se produzca en
 cualquiera de sus desarrollos.
 
-#########
-
-Haga que el proyecto correspondiente a esta práctica conste al menos de 3 ficheros:
-* Un fichero `cripto.cc` (programa principal) que contendrá la función `main` e incluirá el fichero de cabecera `funciones_cripto.h`
-* El fichero `funciones_cripto.h` que contendrá las declaraciones de las diferentes funciones que se utilizan en el
-  programa principal.
-* El fichero `funciones_cripto.cc` que contendrá el código (definiciones) de las funciones declaradas en el fichero
-  de cabecera.
-
-La compilación del programa ha de estar automatizada mediante un fichero Makefile.
-
-Desarrolle su programa de forma incremental, probando cada una de las funciones que va Ud.
-desarrollando. Utilice el depurador de VSC para corregir cualquier tipo de error semántico que se produzca en
-cualquiera de sus desarrollos.
-
 ### Ejercicios
-1.  La clase Racional
+1. La clase Fecha.
+
+Desarrolle una clase `Fecha` que permita representar y gestionar fechas.
+Incorpore en la clase los miembros de datos y métodos que considere adecuados para la finalidad que se
+persigue en este ejercicio.
+Realice un programa cliente `fechas.cc` que ordene cronológicamente un conjunto de fechas.
+El programa ha de leer las fechas de un fichero de texto que contendrá una fecha en cada línea en el formato
+```
+dd/mm/aaaa
+```
+(es decir, día, mes y año separando cada elemento por el caracter `/`.
+También por línea de comandos se leerá el nombre de otro fichero (en este caso de salida) en el que el programa escribirá las
+fechas ha se han leído del fichero de entrada, pero ordenadas cronológicamente.
+
+2. La clase Complejo.
+
+Todo
+[número complejo](https://es.wikipedia.org/wiki/N%C3%BAmero_complejo)
+puede representarse como la suma de un número real y un número imaginario, de la forma `a + bi` donde el
+término `a` es la parte real, `b` la parte imaginaria e `i` la
+[unidad imaginaria](https://es.wikipedia.org/wiki/Unidad_imaginaria).
+
+En este ejercicio se propone desarrollar una clase `Complejo` que permita operar con números complejos.
+
+Separe el diseño de su clase `Complejo` en dos ficheros, `complejo.h` y `complejo.cc` conteniendo
+respectivamente la declaración y la definición de la clase.
+Siga las indicaciones del tutorial 
+[Class code and header files](https://www.learncpp.com/cpp-tutorial/89-class-code-and-header-files/)
+para realizar esta separación de su clase en dos ficheros.
+
+Desarrolle un programa cliente `complejos.cc` que permita operar con números complejos y haga uso
+de la clase `Complejo` que diseñe.
+La clase `Complejo` ha de contener al menos métodos que permitan (*print()*) imprimir un número 
+complejo así como sumar (*Add()*) y restar (*Sub()*) números complejos.
+Así la función *main* del programa `complejos.cc` podría contener sentencias como las siguientes:
+
+```
+main() {
+  Complex c1{4, 5}, c2{7, -8};
+  Complex resultado;
+  resultado = add(n1,n2);
+  resultado.print();
+  resultado = sub(n1,n2);
+  resultado.print();
+}
+```
+que imprimirían en pantalla los resultados de las dos operaciones consignadas.
+
+Incluya (libremente) cualesquiera otras operaciones que considere adecuado incluir como métodos en la clase
+`Complejo`.
+
+
+3. La clase Racional.
+
 Un 
 [número racional](https://en.wikipedia.org/wiki/Rational_number)
 tiene un numerador y un denominador de la forma `p/q` donde `p` es el numerador y `q` el denominador.
@@ -91,24 +172,25 @@ de la clase `Racional` que ha de diseñarse.
 Las siguientes deben tomarse como especificaciones del programa a desarrollar:
 * Separe el diseño de su clase `Racional` en dos ficheros, `racional.h` y `racional.cc` conteniendo
   respectivamente la declaración y la definición de la clase.
-  Siga las indicaciones del tutorial 
-	[Class code and header files](https://www.learncpp.com/cpp-tutorial/89-class-code-and-header-files/)
-  para realizar esta separación de su clase en dos ficheros.
 * La clase `Racional` que incluirá al menos métodos para:
     * Crear objetos de tipo `Racional`. Se debe implementar un constructor por defecto y uno parametrizado.
     * Escribir (a fichero o a pantalla) un objeto de tipo `Racional`.
     * Leer (por teclado o desde fichero) un objeto de tipo `Racional`.
+* El programa `racionales.cc` ha de contar con funciones que permitan:
     * Sumar dos objetos de tipo `Racional`.
     * Restar dos objetos de tipo `Racional`.
     * Multiplicar dos objetos de tipo `Racional`.
     * Dividir dos objetos de tipo `Racional`.
     * Comparar objetos de tipo `Racional`.
+		Estas funciones debieran desarrollarse como métodos de la clase, aunque como primera aproximación pueden
+		desarrollarse como funciones ordinarias externas a la clase.
 * El programa ha de permitir leer un fichero de texto en el que figuran pares de números racionales
 separados por espacios de la forma:
 
 ```
 a/b c/d
 e/f g/h
+  ...
 ```
 
 y para cada par de números racionales, el programa ha de imprimir en otro fichero de salida todas las operaciones posibles
@@ -116,7 +198,7 @@ con cada uno de los pares de números del fichero de entrada, de la forma:
 
 ```
 a/b + c/d = n/m
-...
+  ...
 ```
 
 Si el programa se ejecuta sin pasar parámetros en la línea de comandos, debemos obtener el siguiente mensaje:
@@ -127,31 +209,25 @@ Modo de uso: ./racionales fichero_entrada fichero_salida
 Pruebe ./racionales --help para más información
 ```
 
-Si el programa se ejecuta pasando la opción `--help` se ha de obtener:
+Si el programa se ejecuta pasando como parámetro la opción `--help` se ha de obtener:
 
 ```
 ./racionales -- Números Racionales
 Modo de uso: ./racionales fichero_entrada fichero_salida 
 
 fichero_entrada: Fichero de texto conteniendo líneas con un par de números racionales: `a/b c/d` separados por un espacio
-fichero_salida:  Fichero de texto que contendrá líneas con los números operados: `a/b + c/d = n/m`
+fichero_salida:  Fichero de texto que contendrá líneas con las operaciones realizadas: `a/b + c/d = n/m`
 ```
 
-
-
-2. La clase Complejo
-
-3. La clase Fecha
-
-4. La clase Matriz
-https://stackoverrun.com/es/q/422606
-https://www.quantstart.com/articles/Matrix-Classes-in-C-The-Header-File/
 
 
 
 
 
 ### Referencias
+* [CMake](https://es.wikipedia.org/wiki/CMake)
+* [Introduction to modern CMake for beginners](https://www.internalpointers.com/post/modern-cmake-beginner-introduction)
+* [Números complejos](https://es.wikipedia.org/wiki/N%C3%BAmero_complejo)
 * [Rational Number](https://en.wikipedia.org/wiki/Rational_number)
 *	[Class code and header files](https://www.learncpp.com/cpp-tutorial/89-class-code-and-header-files/)
 * [Doxygen](https://en.wikipedia.org/wiki/Doxygen)
