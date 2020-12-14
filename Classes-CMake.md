@@ -59,9 +59,33 @@ En
 de la herramienta se pueden estudiar en profundidad estas opciones, pero para la utilización que perseguimos
 realizar en esta asignatura bastará con que estudie detenidamente 
 [este breve tutorial](https://www.internalpointers.com/post/modern-cmake-beginner-introduction).
-En el 
 
+En el directorio raíz del repositorio de esta práctica hallará un subdirectorio `fibonacci_sum` con el
+siguiente contenido:
 
+```
+  fibonacci_sum
+  ├── build                      // Directorio de 'construcción' de la aplicación
+  ├── CMakeLists.txt             // Fichero de configuración para CMake
+  ├── doc                        // Documentación
+  ├── fibonacci.Doxyfile         // Fichero de configuración para Doxygen
+  ├── LEE_ME.txt
+  ├── lib                        // Librerías
+  └── src                        // Código fuente de la aplicación
+      ├── fibonacci_main.cc
+      ├── fibonacci_sum.cc
+      ├── fibonacci_sum.h
+      ├── tools.cc
+      └── tools.h
+```
+Esa estructura de directorios es habitual en muchos proyectos de desarrollo de software.
+En este ejemplo se ha tomado la aplicaciĺn `fibonacci_sum` que calcula la suma de términos pares de la serie
+de Fibonacci y se ha fragmentado la aplicación en 5 ficheros de código (`*.cc` y `*.h`).
+El fichero de configuración `CMakeLists.txt` contiene la configuración que se utiliza para el despliegue de la
+aplicación.
+Al efecto de ilustrar este proceso, el proyecto crea una librería `libtools.a` que aloja en el directorio `lib`. 
+El programa binario (`fibonacci_sum`) se construye enlazando esta librería con el resto del código objeto
+producto de la compilación.
 
 ### Entorno de trabajo
 Al realizar los siguientes ejercicios cree dentro de su repositorio de esta práctica un directorio diferente
@@ -102,14 +126,16 @@ cualquiera de sus desarrollos.
 Desarrolle una clase `Fecha` que permita representar y gestionar fechas.
 Incorpore en la clase los miembros de datos y métodos que considere adecuados para la finalidad que se
 persigue en este ejercicio.
-Realice un programa cliente `fechas.cc` que ordene cronológicamente un conjunto de fechas.
-El programa ha de leer las fechas de un fichero de texto que contendrá una fecha en cada línea en el formato
+Incluya un método o función que permita determinar si el año correspondiente a una fecha es un año bisiesto o
+no.
+Realice un programa cliente `fechas.cc` que tome como parámetro una fecha, un número y un nombre de fichero:
 ```
-dd/mm/aaaa
+./fechas
+Modo de uso: ./fechas dd/mm/aa N fichero_salida.txt
+Pruebe ./fechas --help para más información
 ```
-(es decir, día, mes y año separando cada elemento por el caracter `/`.
-También por línea de comandos se leerá el nombre de otro fichero (en este caso de salida) en el que el programa escribirá las
-fechas ha se han leído del fichero de entrada, pero ordenadas cronológicamente.
+El programa deberá imprimir en el fichero de salida (tercer parámetro) las N (segundo parámetro) fechas cronológicamente posteriores a la
+introducida (primer parámetro) con una separación de un día entre fechas sucesivas.
 
 2. La clase Complejo.
 
