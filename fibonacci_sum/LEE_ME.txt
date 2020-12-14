@@ -4,3 +4,5 @@ https://www.internalpointers.com/post/modern-cmake-beginner-introduction
 Tomando como guía el tutorial anterior, se han modificado los ficheros para
 realizar el tutorial con el programa "fibonacci_sum.cc" que calcula una suma 
 de términos pares de la serie de Fibonacci.
+
+Si va Ud. a realizar el tutorial, haga previamente una copia del fichero CMakeLists.txt

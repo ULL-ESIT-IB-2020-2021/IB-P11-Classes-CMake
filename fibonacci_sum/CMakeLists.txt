@@ -42,3 +42,33 @@ target_compile_features(fibonacci_sum PRIVATE cxx_std_14)
 
 # Add compile options to a target.
 target_compile_options(fibonacci_sum PRIVATE -Wall -Wextra -Wpedantic)
+
+############################################################
+# Build doxygen from CMake script
+# https://stackoverflow.com/questions/34878276/build-doxygen-from-cmake-script
+# https://cmake.org/cmake/help/latest/module/FindDoxygen.html
+############################################################
+
+find_package(Doxygen)
+option(BUILD_DOCUMENTATION "Create and install the documentation (requires Doxygen)" ${DOXYGEN_FOUND})
+
+if(BUILD_DOCUMENTATION)
+    if(NOT DOXYGEN_FOUND)
+         message(FATAL_ERROR "Doxygen is needed to build the documentation.")
+    endif()
+
+    set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/fibonacci.Doxyfile)
+    set(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/doxyfile)
+
+    configure_file(${doxyfile_in} ${doxyfile} @ONLY)
+
+    message("Doxygen build started.")
+
+    add_custom_target(doc ALL
+                      COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile_in}
+                      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/doc
+                      COMMENT "Generating API documentation with Doxygen"
+                      VERBATIM)
+
+    #    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION     share/doc)
+endif()
