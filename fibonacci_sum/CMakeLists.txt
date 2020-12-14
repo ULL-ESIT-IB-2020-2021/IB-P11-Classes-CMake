@@ -29,19 +29,33 @@ project(fibonacci_sum                # Mandatory
 set(CMAKE_CXX_STANDARD 14) 						# Use c++14
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# tell cmake to output binaries here:
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+
+# tell cmake where to look for *.h files
+include_directories(${PROJECT_SOURCE_DIR}/src)
+
+# create library " libtools "
+add_library(tools src/tools.cc)
+
 # Adds an executable target called "fibonacci_sum" to be built from the source files listed in the command invocation.
 add_executable(fibonacci_sum
     src/fibonacci_sum.h
     src/fibonacci_sum.cc
-    src/tools.h
-    src/tools.cc
     src/fibonacci_main.cc)
+
+# tell the linker to bind these objects together
+# It's important to place target_link_libraries after the add_executable and find_package lines, so all linked components are known.
+target_link_libraries(fibonacci_sum tools)
+
 
 # Add expected compiler features to a target.
 target_compile_features(fibonacci_sum PRIVATE cxx_std_14)
 
 # Add compile options to a target.
 target_compile_options(fibonacci_sum PRIVATE -Wall -Wextra -Wpedantic)
+
 
 ############################################################
 # Build doxygen from CMake script
