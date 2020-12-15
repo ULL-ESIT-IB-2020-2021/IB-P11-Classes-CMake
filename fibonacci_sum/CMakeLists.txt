@@ -37,7 +37,6 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-
 # tell cmake where to look for *.h files
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
@@ -53,7 +52,6 @@ add_executable(fibonacci_sum
 # tell the linker to bind these objects together
 # It's important to place target_link_libraries after the add_executable and find_package lines, so all linked components are known.
 target_link_libraries(fibonacci_sum tools)
-
 
 # Add expected compiler features to a target.
 target_compile_features(fibonacci_sum PRIVATE cxx_std_14)
