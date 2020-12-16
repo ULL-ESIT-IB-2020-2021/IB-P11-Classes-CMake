@@ -1,4 +1,4 @@
-# Práctica 11. Introducción a la Programación Orientada a Objetos. CMake.
+# Práctica 11. Introducción a la Programación Orientada a Objetos. Clases. CMake.
 
 ### Objetivos
 Los objetivos de esta práctica son que el alumnado:
