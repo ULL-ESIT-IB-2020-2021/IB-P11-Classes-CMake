@@ -79,13 +79,13 @@ siguiente contenido:
       ├── tools.cc
       └── tools.h
 ```
-Esa estructura de directorios (a la que se añadirán los directorios `build` y -opcionalmente `lib`)
-es habitual en muchos proyectos de desarrollo de software.
+Esa estructura de directorios (a la que se añadirán los directorios `build` y -opcionalmente `lib`-)
+es habitual en proyectos de desarrollo de software.
 En este ejemplo se ha tomado la aplicación `fibonacci_sum` que calcula la suma de términos pares de la serie
 de Fibonacci y se ha fragmentado la aplicación en 5 ficheros de código (`*.cc` y `*.h`).
 El fichero de configuración `CMakeLists.txt` contiene la configuración que se utiliza para el despliegue de la
 aplicación.
-Al efecto de ilustrar este proceso, el proyecto crea una librería `libtools.a` que aloja en el directorio `lib`. 
+Al efecto de ilustrar este proceso, se crea una librería `libtools.a` que se aloja en el directorio `lib`. 
 El programa binario (`fibonacci_sum`) se construye enlazando esta librería con el resto del código objeto
 producto de la compilación.
 
@@ -99,12 +99,12 @@ $ make
 ```
 
 El comando `cmake`, usando el fichero de configuración, creará en el directorio `build` el fichero `Makefile`
-que utiliza el comando `make` para construir la aplicación, cuyo programa binario `fibonacci_sum` se crea en
-el directorio `build`.
+que utiliza el comando `make` para construir la aplicación, cuyo programa binario `fibonacci_sum` se crea
+asimismo en el directorio `build`.
 
-Realice experimentos con este fichero de configuración entregado, `CMakeLists.txt` para adaptarlo a cada uno
+Experimente con este fichero de configuración entregado, `CMakeLists.txt` para adaptarlo a cada uno
 de sus propios proyectos (ejercicios de la práctica).
-No es necesario en principio, que construya Ud. librerías propias para sus programas.
+No es necesario en principio, que construya librerías propias para sus programas.
 La construcción de una librería se ha incluído en este ejemplo a efectos de ilustrar ese proceso.
 
 ### Trabajo previo
