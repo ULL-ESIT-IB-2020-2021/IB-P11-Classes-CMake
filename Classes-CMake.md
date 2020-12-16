@@ -14,17 +14,20 @@ Se señalan a continuación los aspectos más relevantes (la lista no es exhaust
 que se tendrán en cuenta a la hora de evaluar esta práctica:
 * El alumnado ha de acreditar conocer los conceptos expuestos en el material de referencia de esta práctica.
 * El alumnado ha de acreditar que ha realizado todos los ejercicios propuestos, así como ser capaz de desarrollar otros similares.
-* Ha de acreditar que es capaz de escribir un fichero Makefile para automatizar el proceso de compilación de sus programas.
-* El código que escriba ha de estar escrito de acuerdo a los estándares definidos en la Guía de Estilo de Google para C++.
+* Ha de acreditar que es capaz de escribir un fichero CMakeLists.txt para automatizar el proceso de compilación de sus programas.
+* El código que escriba ha de estar escrito de acuerdo a los estándares definidos en la 
+  [Guía de Estilo de Google para C++](https://google.github.io/styleguide/cppguide.html).
 * Todos los identificadores que utilice en su programa (constantes, variables, etc.) deberán ser
   siempre significativos. No utilice nunca identificadores de una única letra, tal vez con la excepción de las
   variables que utilice para iterar en un bucle.
 * Antes de su ejecución, todos los programas que desarrolle, deben imprimir en pantalla un
   mensaje indicando la finalidad del programa así como la información que precisará del usuario para su correcta ejecución.
-* Ante la presencia de cualquier bug, el alumnado ha de conocer las técnicas básicas de depuración usando VSC
-* Todos los ficheros de código del proyecto correspondiente a esta práctica han de alojarse en un repositorio
-  de GitHub
-* Los programas deben contener comentarios adecuados en el formato requerido por Doxygen
+* Ante la presencia de cualquier bug, el alumnado ha de conocer las técnicas básicas de depuración usando
+  Visual Studio Code.
+* Todos los ficheros de código del proyecto correspondiente a esta práctica han de alojarse en un repositorio de 
+  [GitHub](https://github.com/).
+* Los programas deben contener comentarios adecuados en el formato requerido por 
+  [Doxygen](https://www.doxygen.nl/index.html).
 * Los programas deben estructurarse en directorios diferentes para cada "proyecto" y hacer que cada uno de
   ellos contenga un fichero `CMakeLists.txt` con la configuración de despliegue del proyecto.
 
@@ -40,18 +43,18 @@ Eso es lo que la palabra meta significa: CMake construye sistemas de construcci�
 (*builders*). 
 La herramienta make es un sistema de construcción, posiblemente el más ubicuo.
 
-Un proyecto basado en CMake siempre contiene un fichero `CMakeLists.txt`. 
-Este fichero de texto describe cómo se estructura el proyecto, la lista de ficheros 
+Un proyecto basado en CMake siempre contiene un fichero `CMakeLists.txt`
+que describe cómo se estructura el proyecto, la lista de ficheros 
 de código fuente que se ha de compilar, lo que CMake debe generar a partir de él y así sucesivamente. 
 Se trata en definitiva de un fichero de configuración para la herramienta CMake.
-CMake leerá las instrucciones del fichero y producirá el resultado deseado. 
+CMake leerá las instrucciones de ese fichero y producirá el resultado deseado. 
 
 Una característica positiva de CMake es el llamado "out-of-source build". 
 Cualquier fichero requerido para la construcción final, incluyendo los ejecutables, 
 será almacenado en un directorio de construcción separado (usualmente llamado build/). 
 Esto evita que el directorio de origen que contiene el código fuente se llene de 
 ficheros no deseados y hace que sea fácil volver a empezar: sólo hay que eliminar 
-el directorio destino de la compilación y listo.
+el directorio destino de la compilación (directorio build) y listo.
 
 CMake es una herramienta muy potente que admite multitud de opciones.
 En 
@@ -65,12 +68,10 @@ siguiente contenido:
 
 ```
   fibonacci_sum
-  ├── build                      // Directorio de 'construcción' de la aplicación
   ├── CMakeLists.txt             // Fichero de configuración para CMake
   ├── doc                        // Documentación
   ├── fibonacci.Doxyfile         // Fichero de configuración para Doxygen
   ├── LEE_ME.txt
-  ├── lib                        // Librerías
   └── src                        // Código fuente de la aplicación
       ├── fibonacci_main.cc
       ├── fibonacci_sum.cc
@@ -78,8 +79,9 @@ siguiente contenido:
       ├── tools.cc
       └── tools.h
 ```
-Esa estructura de directorios es habitual en muchos proyectos de desarrollo de software.
-En este ejemplo se ha tomado la aplicaciĺn `fibonacci_sum` que calcula la suma de términos pares de la serie
+Esa estructura de directorios (a la que se añadirán los directorios `build` y -opcionalmente `lib`)
+es habitual en muchos proyectos de desarrollo de software.
+En este ejemplo se ha tomado la aplicación `fibonacci_sum` que calcula la suma de términos pares de la serie
 de Fibonacci y se ha fragmentado la aplicación en 5 ficheros de código (`*.cc` y `*.h`).
 El fichero de configuración `CMakeLists.txt` contiene la configuración que se utiliza para el despliegue de la
 aplicación.
@@ -87,14 +89,39 @@ Al efecto de ilustrar este proceso, el proyecto crea una librería `libtools.a` 
 El programa binario (`fibonacci_sum`) se construye enlazando esta librería con el resto del código objeto
 producto de la compilación.
 
+Para construir la aplicación, siga los siguientes pasos (que son los habituales):
+```
+$ cd fibonacci_sum
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+```
+
+El comando `cmake`, usando el fichero de configuración, creará en el directorio `build` el fichero `Makefile`
+que utiliza el comando `make` para construir la aplicación, cuyo programa binario `fibonacci_sum` se crea en
+el directorio `build`.
+
+Realice experimentos con este fichero de configuración entregado, `CMakeLists.txt` para adaptarlo a cada uno
+de sus propios proyectos (ejercicios de la práctica).
+No es necesario en principio, que construya Ud. librerías propias para sus programas.
+La construcción de una librería se ha incluído en este ejemplo a efectos de ilustrar ese proceso.
+
+### Trabajo previo
+Antes de realizar los ejercicios de esta práctica, estudie detenidamente el Capítulo 8 (epígrafes 8.1-8.16) del
+[tutorial learncpp](https://www.learncpp.com/cpp-tutorial/81-welcome-to-object-oriented-programming/).
+Muchos de los ejemplos de ese tutorial son los mismos que se utilizan en las clases teóricas de la asignatura,
+cuyo material debiera Ud. también estudiar.
+
 ### Entorno de trabajo
 Al realizar los siguientes ejercicios cree dentro de su repositorio de esta práctica un directorio diferente
-para cada uno de los ejercicios (proyectos).
+para cada uno de los ejercicios (proyectos) con un contenido similar al que se ha entregado para la aplicación
+de ejemplo `fibonacci_sum`.
 Tómese como ejemplo el primero de los ejercicios.
 Ponga a cada uno de esos directorios nombres significativos (fechas, complejos, racionales por ejemplo).
 
 Haga que cada uno de sus programas conste de 3 ficheros:
-* Un fichero `fechas.cc` (programa principal) que contendrá la función `main` e incluirá el fichero de cabecera `fecha.h`
+* Un fichero `fechas.cc` (programa principal) que contendrá la función `main` e incluirá el fichero de cabecera `fecha.h`.
 * El fichero `fecha.h` que contendrá las declaraciones correspondientes a la clase `Fecha`.
 * El fichero `fecha.cc` que contendrá el código (definiciones) correspondientes a la clase `Fecha`.
 * Obviamente si el programa principal (`fechas.cc`) utiliza otras clases, debería incluir (`#include`) los
@@ -104,8 +131,8 @@ Modifique estos nombres de ficheros para adaptarlos al ejercicio en cuestión.
 La compilación del programa correspondiente a cada ejercicio se automatizará con un fichero `CMakeLists.txt`
 que se utilizará con `cmake`.
 
-Así pues, la estructura de ficheros y directorios correspondiente a uno de los ejercicios (fechas, p. ej)
-sería la siguiente:
+Así pues, la estructura de directorios y sus contenidos correspondiente al primero de los ejercicios
+propuestos sería la siguiente:
 ```
 fechas
     ├── build           // Directorio inicialmente vacío para alojar el programa ejecutable
@@ -126,11 +153,11 @@ cualquiera de sus desarrollos.
 Desarrolle una clase `Fecha` que permita representar y gestionar fechas.
 Incorpore en la clase los miembros de datos y métodos que considere adecuados para la finalidad que se
 persigue en este ejercicio.
-Incluya un método o función que permita determinar si el año correspondiente a una fecha es un año bisiesto o
+Incluya un método que permita determinar si el año correspondiente a una fecha es un año bisiesto o
 no.
 Realice un programa cliente `fechas.cc` que tome como parámetro una fecha, un número y un nombre de fichero:
 ```
-./fechas
+./fechas - Gestión de fechas
 Modo de uso: ./fechas dd/mm/aa N fichero_salida.txt
 Pruebe ./fechas --help para más información
 ```
@@ -152,6 +179,10 @@ respectivamente la declaración y la definición de la clase.
 Siga las indicaciones del tutorial 
 [Class code and header files](https://www.learncpp.com/cpp-tutorial/89-class-code-and-header-files/)
 para realizar esta separación de su clase en dos ficheros.
+Siga igualmente las indicaciones del tutorial 
+[Header guards](https://www.learncpp.com/cpp-tutorial/header-guards/)
+para incluir (siempre de ahora en adelante) *header guards* (guardas de cabecera) en sus ficheros de
+definiciones (`*.h`) de modo que se evite la inclusión múltiple del mismo fichero.
 
 Desarrolle un programa cliente `complejos.cc` que permita operar con números complejos y haga uso
 de la clase `Complejo` que diseñe.
@@ -161,19 +192,18 @@ Así la función *main* del programa `complejos.cc` podría contener sentencias 
 
 ```
 main() {
-  Complex c1{4, 5}, c2{7, -8};
-  Complex resultado;
-  resultado = add(n1,n2);
+  Complejo complejo1{4, 5}, complejo2{7, -8};
+  Complejo resultado;
+  resultado = add(complejo1, complejo2);
   resultado.print();
-  resultado = sub(n1,n2);
+  resultado = sub(complejo1, complejo2);
   resultado.print();
 }
 ```
-que imprimirían en pantalla los resultados de las dos operaciones consignadas.
+que imprimirían en pantalla los resultados de la suma y referencia de números complejos indicada.
 
-Incluya (libremente) cualesquiera otras operaciones que considere adecuado incluir como métodos en la clase
+Incluya (discrecionalmente) cualesquiera otras operaciones que considere adecuadas como métodos en la clase
 `Complejo`.
-
 
 3. La clase Racional.
 
@@ -198,18 +228,15 @@ de la clase `Racional` que ha de diseñarse.
 Las siguientes deben tomarse como especificaciones del programa a desarrollar:
 * Separe el diseño de su clase `Racional` en dos ficheros, `racional.h` y `racional.cc` conteniendo
   respectivamente la declaración y la definición de la clase.
-* La clase `Racional` que incluirá al menos métodos para:
+* La clase `Racional` incluirá al menos métodos para:
     * Crear objetos de tipo `Racional`. Se debe implementar un constructor por defecto y uno parametrizado.
     * Escribir (a fichero o a pantalla) un objeto de tipo `Racional`.
     * Leer (por teclado o desde fichero) un objeto de tipo `Racional`.
-* El programa `racionales.cc` ha de contar con funciones que permitan:
     * Sumar dos objetos de tipo `Racional`.
     * Restar dos objetos de tipo `Racional`.
     * Multiplicar dos objetos de tipo `Racional`.
     * Dividir dos objetos de tipo `Racional`.
     * Comparar objetos de tipo `Racional`.
-		Estas funciones debieran desarrollarse como métodos de la clase, aunque como primera aproximación pueden
-		desarrollarse como funciones ordinarias externas a la clase.
 * El programa ha de permitir leer un fichero de texto en el que figuran pares de números racionales
 separados por espacios de la forma:
 
@@ -244,18 +271,13 @@ Modo de uso: ./racionales fichero_entrada fichero_salida
 fichero_entrada: Fichero de texto conteniendo líneas con un par de números racionales: `a/b c/d` separados por un espacio
 fichero_salida:  Fichero de texto que contendrá líneas con las operaciones realizadas: `a/b + c/d = n/m`
 ```
-
-
-
-
-
-
 ### Referencias
 * [CMake](https://es.wikipedia.org/wiki/CMake)
 * [Introduction to modern CMake for beginners](https://www.internalpointers.com/post/modern-cmake-beginner-introduction)
 * [Números complejos](https://es.wikipedia.org/wiki/N%C3%BAmero_complejo)
 * [Rational Number](https://en.wikipedia.org/wiki/Rational_number)
 *	[Class code and header files](https://www.learncpp.com/cpp-tutorial/89-class-code-and-header-files/)
+* [Header guards](https://www.learncpp.com/cpp-tutorial/header-guards/)
 * [Doxygen](https://en.wikipedia.org/wiki/Doxygen)
 * [Documenting C++ Code](https://developer.lsst.io/cpp/api-docs.html)
 * [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
